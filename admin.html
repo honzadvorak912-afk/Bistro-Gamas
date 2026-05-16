@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin – Jíde lní lístek · Bistro Gamas</title>
+<title>Admin Bistro Gamas</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -25,81 +25,82 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .admin-header .logo span{color:var(--gold);font-style:italic}
 .badge{font-size:11px;background:rgba(201,168,76,.15);color:var(--gold);padding:4px 12px;border-radius:20px}
 .logout-btn{font-size:12px;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;padding:6px 12px}
-.admin-body{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 57px)}
+.admin-body{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 57px)}
 .sidebar{background:var(--white);border-right:1px solid var(--border);padding:24px 0}
 .sidebar-section{padding:0 16px;margin-bottom:8px}
 .sidebar-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 8px 6px;font-weight:500}
-.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:3px;cursor:pointer;font-size:14px;color:var(--text);border:none;background:none;width:100%;text-align:left}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:3px;cursor:pointer;font-size:14px;color:var(--text);border:none;background:none;width:100%;text-align:left;transition:.15s}
 .sidebar-item:hover{background:var(--bg)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
-.sidebar-add{display:flex;align-items:center;gap:8px;padding:10px 12px 10px 24px;font-size:13px;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sidebar-add{display:flex;align-items:center;gap:8px;padding:10px 12px 10px 24px;font-size:13px;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:.15s}
 .sidebar-add:hover{color:var(--gold)}
-.main{padding:32px 40px;overflow-y:auto}
-.main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.main{padding:28px 36px;overflow-y:auto}
+.main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
 .main-title{font-size:20px;font-weight:500}
 .main-actions{display:flex;gap:10px}
-.btn{font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:500;padding:10px 20px;border-radius:3px;cursor:pointer;border:none}
-.btn-primary{background:var(--gold);color:var(--dark)}
-.btn-secondary{background:var(--white);color:var(--text);border:1px solid var(--border)}
-.btn-danger{background:var(--red);color:#fff}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
-.stat-card{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:20px 24px}
-.stat-label{font-size:12px;color:var(--muted);margin-bottom:6px}
-.stat-value{font-size:28px;font-weight:500;color:var(--dark)}
-.category-block{background:var(--white);border:1px solid var(--border);border-radius:4px;margin-bottom:20px;overflow:hidden}
-.category-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:#fafaf8}
-.category-name-wrap{display:flex;align-items:center;gap:12px}
-.category-icon{width:32px;height:32px;background:var(--bg);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.btn{font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:500;padding:10px 20px;border-radius:3px;cursor:pointer;transition:.2s;border:none}
+.btn-primary{background:var(--gold);color:var(--dark)}.btn-primary:hover{background:#b8922a}
+.btn-secondary{background:var(--white);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{background:var(--red);color:#fff}.btn-danger:hover{background:#a93226}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:18px 22px}
+.stat-label{font-size:12px;color:var(--muted);margin-bottom:4px}
+.stat-value{font-size:26px;font-weight:500;color:var(--dark)}
+.category-block{background:var(--white);border:1px solid var(--border);border-radius:4px;margin-bottom:16px;overflow:hidden}
+.category-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:#fafaf8}
+.category-name-wrap{display:flex;align-items:center;gap:10px}
+.category-icon{width:30px;height:30px;background:var(--bg);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:14px}
 .category-title-input{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;border:none;background:transparent;outline:none;color:var(--dark);width:200px}
+.category-title-input:focus{border-bottom:1px solid var(--gold)}
 .category-meta{font-size:12px;color:var(--muted)}
 .category-actions{display:flex;gap:8px;align-items:center}
 .items-table{width:100%;border-collapse:collapse}
-.items-table th{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:10px 16px;text-align:left;border-bottom:1px solid var(--border);font-weight:500}
-.items-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.items-table th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:500}
+.items-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
 .items-table tr:last-child td{border-bottom:none}
 .items-table tr:hover td{background:#fafaf8}
-.item-name-input,.item-desc-input,.item-price-input{font-family:'DM Sans',sans-serif;border:none;background:transparent;outline:none;color:var(--text);width:100%;padding:4px 6px;border-radius:2px}
-.item-name-input{font-size:14px;font-weight:500}
-.item-desc-input{font-size:13px;color:var(--muted)}
-.item-price-input{font-size:14px;color:var(--gold);font-weight:500;width:100px}
-.item-name-input:focus,.item-desc-input:focus,.item-price-input:focus{background:var(--bg);border-bottom:1px solid var(--gold)}
-.row-actions{display:flex;gap:6px;opacity:0;transition:.15s}
+.cell-input{font-family:'DM Sans',sans-serif;border:none;background:transparent;outline:none;color:var(--text);width:100%;padding:3px 5px;border-radius:2px;font-size:14px}
+.cell-input.name{font-weight:500}
+.cell-input.desc{font-size:13px;color:var(--muted)}
+.cell-input.price{color:var(--gold);font-weight:500;width:90px}
+.cell-input.gramaz{color:var(--muted);font-size:13px;width:80px}
+.cell-input:focus{background:var(--bg);border-bottom:1px solid var(--gold)}
+.row-actions{display:flex;gap:4px;opacity:0;transition:.15s}
 tr:hover .row-actions{opacity:1}
-.icon-btn{background:none;border:1px solid var(--border);border-radius:3px;padding:5px 8px;cursor:pointer;font-size:13px;color:var(--muted)}
+.icon-btn{background:none;border:1px solid var(--border);border-radius:3px;padding:4px 8px;cursor:pointer;font-size:12px;color:var(--muted);transition:.15s}
 .icon-btn:hover{border-color:var(--red);color:var(--red)}
-.add-item-row{padding:12px 16px;border-top:1px solid var(--border)}
-.add-item-btn{font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:3px}
+.add-item-row{padding:10px 14px;border-top:1px solid var(--border)}
+.add-item-btn{font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.2s;padding:5px 7px;border-radius:3px}
 .add-item-btn:hover{color:var(--gold);background:var(--bg)}
-.toast{position:fixed;bottom:28px;right:28px;background:var(--dark);color:#fff;padding:14px 22px;border-radius:4px;font-size:14px;transform:translateY(80px);opacity:0;transition:.3s;z-index:999;border-left:3px solid var(--green)}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;padding:14px 22px;border-radius:4px;font-size:14px;transform:translateY(80px);opacity:0;transition:.3s;z-index:999;border-left:3px solid var(--green)}
 .toast.show{transform:none;opacity:1}
-.publish-banner{background:#fdf6e8;border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:16px 20px;display:none;align-items:center;justify-content:space-between;margin-bottom:24px}
+.publish-banner{background:#fdf6e8;border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:14px 18px;display:none;align-items:center;justify-content:space-between;margin-bottom:20px}
 .publish-banner.visible{display:flex}
 .publish-banner p{font-size:14px;color:#7a5c1e}
-.preview-note{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:20px 24px;margin-top:24px}
-.preview-note h3{font-size:14px;font-weight:500;margin-bottom:8px}
-.preview-note p{font-size:13px;color:var(--muted);line-height:1.7}
-.preview-note a{color:var(--gold)}
-@media(max-width:900px){.admin-body{grid-template-columns:1fr}.sidebar{display:none}.stats-row{grid-template-columns:1fr 1fr}.main{padding:20px}}
+.pub-status{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:16px 20px;margin-top:20px;font-size:13px;color:var(--muted);line-height:1.7}
+.pub-status strong{color:var(--dark)}
+.pub-status a{color:var(--gold)}
+@media(max-width:900px){.admin-body{grid-template-columns:1fr}.sidebar{display:none}.stats-row{grid-template-columns:1fr 1fr}.main{padding:16px}}
 </style>
 </head>
 <body>
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">Bistro <span>Gamas</span></div>
-    <p class="login-sub">Administrace jíde lního lístku</p>
+    <p class="login-sub">Administrace jidelniho listku</p>
     <label>Heslo</label>
-    <input type="password" id="password-input" placeholder="Zadejte heslo" onkeydown="if(event.key==='Enter')tryLogin()">
-    <button class="login-btn" onclick="tryLogin()">Přihlásit se</button>
-    <p class="login-err" id="login-err">Nesprávné heslo. Zkuste znovu.</p>
-    <p style="font-size:12px;color:#aaa;margin-top:20px">Výchozí heslo: <strong>gamas2024</strong></p>
+    <input type="password" id="pwd" placeholder="Zadejte heslo" onkeydown="if(event.key==='Enter')tryLogin()">
+    <button class="login-btn" onclick="tryLogin()">Prihlasit se</button>
+    <p class="login-err" id="login-err">Nespravne heslo.</p>
+    <p style="font-size:12px;color:#bbb;margin-top:20px">Heslo: <strong>gamas2024</strong></p>
   </div>
 </div>
 <div id="admin-screen">
   <div class="admin-header">
-    <div class="logo">Bistro <span>Gamas</span> &nbsp;·&nbsp; <span style="font-size:13px;color:rgba(255,255,255,.4)">Admin</span></div>
-    <div style="display:flex;align-items:center;gap:16px">
-      <span class="badge">Jíde lní lístek</span>
-      <button class="logout-btn" onclick="logout()">Odhlásit</button>
+    <div class="logo">Bistro <span>Gamas</span></div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span class="badge">Jidelni listek</span>
+      <button class="logout-btn" onclick="logout()">Odhlasit</button>
     </div>
   </div>
   <div class="admin-body">
@@ -107,55 +108,57 @@ tr:hover .row-actions{opacity:1}
       <div class="sidebar-section">
         <div class="sidebar-label">Kategorie</div>
         <div id="sidebar-cats"></div>
-        <button class="sidebar-add" onclick="addCategory()">+ Přidat kategorii</button>
+        <button class="sidebar-add" onclick="addCategory()">+ Pridat kategorii</button>
       </div>
-      <div class="sidebar-section" style="margin-top:24px;border-top:1px solid var(--border);padding-top:16px">
-        <div class="sidebar-label">Rychlé akce</div>
-        <button class="sidebar-item" onclick="publishMenu()"><span class="dot" style="background:var(--green)"></span>Publikovat změny</button>
-        <button class="sidebar-item" onclick="window.open('jidelni-listek.html')"><span class="dot"></span>Zobrazit veřejnou stránku</button>
+      <div class="sidebar-section" style="margin-top:20px;border-top:1px solid var(--border);padding-top:14px">
+        <div class="sidebar-label">Akce</div>
+        <button class="sidebar-item" onclick="publishMenu()"><span class="dot" style="background:var(--green)"></span>Publikovat na web</button>
+        <button class="sidebar-item" onclick="window.open('jidelni-listek.html')"><span class="dot"></span>Zobrazit web</button>
       </div>
     </div>
     <div class="main">
-      <div class="publish-banner" id="publish-banner">
-        <p>Máte neuložené změny.</p>
-        <button class="btn btn-primary" onclick="publishMenu()">Publikovat změny</button>
+      <div class="publish-banner" id="pub-banner">
+        <p>Mate neulozene zmeny</p>
+        <button class="btn btn-primary" onclick="publishMenu()">Publikovat na web</button>
       </div>
       <div class="main-header">
-        <div class="main-title">Správa jíde lního lístku</div>
+        <div class="main-title">Sprava jidelniho listku</div>
         <div class="main-actions">
-          <button class="btn btn-secondary" onclick="addCategory()">+ Nová kategorie</button>
-          <button class="btn btn-primary" onclick="publishMenu()">Publikovat</button>
+          <button class="btn btn-secondary" onclick="addCategory()">+ Nova kategorie</button>
+          <button class="btn btn-primary" onclick="publishMenu()">Publikovat na web</button>
         </div>
       </div>
       <div class="stats-row" id="stats-row"></div>
-      <div id="categories-container"></div>
-      <div class="preview-note"><h3>Jak to funguje</h3><p>Změny se ukládají automaticky. Kliknutím na Publikovat se jíde lní lístek zobrazí na <a href="jidelni-listek.html" target="_blank">veřejné stránce</a>.</p></div>
+      <div id="cats-container"></div>
+      <div class="pub-status" id="pub-status"></div>
     </div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
-const PASS='gamas2024',SK='gamas_menu_v1';
-let menu=[],dirty=false;
-const def=[{id:1,title:'Polévky',emoji:'🍲',items:[{id:1,name:'Polévka dne',desc:'Dle denní nabídky',price:''}]},{id:2,title:'Teplá jídla',emoji:'🍽',items:[{id:1,name:'Jídlo dne 1',desc:'',price:''},{id:2,name:'Jídlo dne 2',desc:'',price:''}]},{id:3,title:'Studená kuchyňe',emoji:'🥗',items:[{id:1,name:'Salát dne',desc:'',price:''}]},{id:4,title:'Cukrářská výroba',emoji:'🎂',items:[{id:1,name:'Zákusek dne',desc:'',price:''},{id:2,name:'Dort na objednávku',desc:'Dle domluvy',price:''}]},{id:5,title:'Nápoje',emoji:'☕',items:[{id:1,name:'Káva',desc:'Espresso, cappuccino, latte',price:''},{id:2,name:'Nealkoholické nápoje',desc:'',price:''}]}];
-function tryLogin(){if(document.getElementById('password-input').value===PASS){document.getElementById('login-screen').style.display='none';document.getElementById('admin-screen').style.display='block';initAdmin();}else document.getElementById('login-err').style.display='block';}
-function logout(){document.getElementById('login-screen').style.display='flex';document.getElementById('admin-screen').style.display='none';document.getElementById('password-input').value='';}
-function initAdmin(){const s=localStorage.getItem(SK);menu=s?JSON.parse(s):JSON.parse(JSON.stringify(def));renderAll();}
+const PASS='gamas2024',SK='gamas_menu_v1',SK_PUB='gamas_menu_published',SK_AT='gamas_menu_published_at';
+let menu=[];
+const def=[{id:1,title:'Polevky',emoji:'',items:[{id:1,name:'Polevka dne',desc:'Dle denni nabidky',gramaz:'',price:''}]},{id:2,title:'Tepla jidla',emoji:'',items:[{id:1,name:'Jidlo dne 1',desc:'',gramaz:'',price:''},{id:2,name:'Jidlo dne 2',desc:'',gramaz:'',price:''}]},{id:3,title:'Studena kuchyne',emoji:'',items:[{id:1,name:'Salat dne',desc:'',gramaz:'',price:''}]},{id:4,title:'Cukrarska vyroba',emoji:'',items:[{id:1,name:'Zakusek dne',desc:'',gramaz:'',price:''},{id:2,name:'Dort na objednavku',desc:'Dle domluvy',gramaz:'',price:''}]},{id:5,title:'Napoje',emoji:'',items:[{id:1,name:'Kava',desc:'Espresso cappuccino latte',gramaz:'',price:''},{id:2,name:'Nealkoholicke napoje',desc:'',gramaz:'',price:''}]}];
+function tryLogin(){if(document.getElementById('pwd').value===PASS){document.getElementById('login-screen').style.display='none';document.getElementById('admin-screen').style.display='block';initAdmin();}else{document.getElementById('login-err').style.display='block';}}
+function logout(){document.getElementById('login-screen').style.display='flex';document.getElementById('admin-screen').style.display='none';document.getElementById('pwd').value='';}
+function initAdmin(){const s=localStorage.getItem(SK);if(s){menu=JSON.parse(s);menu.forEach(c=>c.items.forEach(i=>{if(i.gramaz===undefined)i.gramaz='';}));}else{menu=JSON.parse(JSON.stringify(def));}renderAll();updatePubStatus();}
+function save(){localStorage.setItem(SK,JSON.stringify(menu));document.getElementById('pub-banner').classList.add('visible');}
+function publishMenu(){localStorage.setItem(SK,JSON.stringify(menu));localStorage.setItem(SK_PUB,JSON.stringify(menu));localStorage.setItem(SK_AT,new Date().toISOString());document.getElementById('pub-banner').classList.remove('visible');updatePubStatus();renderStats();showToast('Jidelni listek byl publikovan!');}
+function updatePubStatus(){const at=localStorage.getItem(SK_AT);const el=document.getElementById('pub-status');if(at){const d=new Date(at);el.innerHTML='<strong>Naposledy publikovano:<\/strong> '+d.toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'})+' v '+d.toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'})+' &nbsp; <a href="jidelni-listek.html" target="_blank">Zobrazit verejnou stranku &rarr;<\/a>';}else{el.innerHTML='Zatim nic publikovano. Pridejte polozky a kliknete <strong>Publikovat na web<\/strong>.';}
+}
 function renderAll(){renderSidebar();renderStats();renderCategories();}
-function renderSidebar(){document.getElementById('sidebar-cats').innerHTML=menu.map(c=>'<button class="sidebar-item" onclick="scrollToCat('+c.id+')"><span class="dot"><\/span>'+c.title+'<span style="margin-left:auto;font-size:12px;color:var(--muted)">'+c.items.length+'<\/span><\/button>').join('');}
-function renderStats(){document.getElementById('stats-row').innerHTML='<div class="stat-card"><div class="stat-label">Kategorií<\/div><div class="stat-value">'+menu.length+'<\/div><\/div><div class="stat-card"><div class="stat-label">Položek celkem<\/div><div class="stat-value">'+menu.reduce((s,c)=>s+c.items.length,0)+'<\/div><\/div><div class="stat-card"><div class="stat-label">Poslední úprava<\/div><div class="stat-value" style="font-size:16px">'+new Date().toLocaleDateString('cs-CZ')+'<\/div><\/div><div class="stat-card"><div class="stat-label">Stav<\/div><div class="stat-value" style="font-size:16px;color:var(--green)">Online<\/div><\/div>';}
-function renderCategories(){document.getElementById('categories-container').innerHTML=menu.map(cat=>'<div class="category-block" id="cat-'+cat.id+'"><div class="category-head"><div class="category-name-wrap"><div class="category-icon">'+cat.emoji+'<\/div><input class="category-title-input" value="'+cat.title+'" onchange="updateCatTitle('+cat.id+',this.value)"><\/div><div class="category-actions"><span class="category-meta">'+cat.items.length+' položek<\/span><button class="btn btn-danger" style="padding:6px 12px;font-size:12px" onclick="deleteCategory('+cat.id+')">Smazat<\/button><\/div><\/div><table class="items-table"><thead><tr><th style="width:30%">Název<\/th><th>Popis<\/th><th style="width:120px">Cena<\/th><th style="width:60px"><\/th><\/tr><\/thead><tbody>'+cat.items.map(item=>'<tr><td><input class="item-name-input" value="'+item.name+'" placeholder="Název jídla" onchange="updateItem('+cat.id+','+item.id+',\'name\',this.value)"><\/td><td><input class="item-desc-input" value="'+item.desc+'" placeholder="Popis" onchange="updateItem('+cat.id+','+item.id+',\'desc\',this.value)"><\/td><td><input class="item-price-input" value="'+item.price+'" placeholder="89 Kč" onchange="updateItem('+cat.id+','+item.id+',\'price\',this.value)"><\/td><td><div class="row-actions"><button class="icon-btn" onclick="deleteItem('+cat.id+','+item.id+')">x<\/button><\/div><\/td><\/tr>').join('')+'<\/tbody><\/table><div class="add-item-row"><button class="add-item-btn" onclick="addItem('+cat.id+')">+ Přidat položeku<\/button><\/div><\/div>').join('');}
-function markDirty(){dirty=true;document.getElementById('publish-banner').classList.add('visible');localStorage.setItem(SK,JSON.stringify(menu));}
-function publishMenu(){localStorage.setItem(SK,JSON.stringify(menu));localStorage.setItem('gamas_menu_published',JSON.stringify(menu));localStorage.setItem('gamas_menu_published_at',new Date().toISOString());dirty=false;document.getElementById('publish-banner').classList.remove('visible');renderStats();showToast('Jidelni listek byl publikovan!');}
-function updateCatTitle(id,v){const c=menu.find(x=>x.id===id);if(c){c.title=v;markDirty();renderSidebar();}}
-function updateItem(cid,iid,f,v){const c=menu.find(x=>x.id===cid);if(c){const i=c.items.find(x=>x.id===iid);if(i){i[f]=v;markDirty();}}}
-function addItem(cid){const c=menu.find(x=>x.id===cid);if(c){const id=(c.items.reduce((m,i)=>Math.max(m,i.id),0))+1;c.items.push({id,name:'',desc:'',price:''});markDirty();renderCategories();}}
-function deleteItem(cid,iid){const c=menu.find(x=>x.id===cid);if(c){c.items=c.items.filter(i=>i.id!==iid);markDirty();renderCategories();renderSidebar();}}
-function addCategory(){const id=(menu.reduce((m,c)=>Math.max(m,c.id),0))+1;menu.push({id,title:'Nova kategorie',emoji:'',items:[]});markDirty();renderAll();}
-function deleteCategory(id){if(!confirm('Smazat kategorii?'))return;menu=menu.filter(c=>c.id!==id);markDirty();renderAll();}
-function scrollToCat(id){const el=document.getElementById('cat-'+id);if(el)el.scrollIntoView({behavior:'smooth'});}
+function renderSidebar(){document.getElementById('sidebar-cats').innerHTML=menu.map(c=>'<button class="sidebar-item" onclick="document.getElementById(\'cat-'+c.id+'\').scrollIntoView({behavior:\'smooth\'})"><span class="dot"><\/span>'+c.title+'<span style="margin-left:auto;font-size:12px;color:var(--muted)">'+c.items.length+'<\/span><\/button>').join('');}
+function renderStats(){const t=menu.reduce((s,c)=>s+c.items.length,0);document.getElementById('stats-row').innerHTML='<div class="stat-card"><div class="stat-label">Kategorii<\/div><div class="stat-value">'+menu.length+'<\/div><\/div><div class="stat-card"><div class="stat-label">Polozek<\/div><div class="stat-value">'+t+'<\/div><\/div><div class="stat-card"><div class="stat-label">Dnes<\/div><div class="stat-value" style="font-size:16px">'+new Date().toLocaleDateString('cs-CZ')+'<\/div><\/div><div class="stat-card"><div class="stat-label">Stav webu<\/div><div class="stat-value" style="font-size:16px;color:var(--green)">Online<\/div><\/div>';}
+function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function renderCategories(){document.getElementById('cats-container').innerHTML=menu.map(cat=>'<div class="category-block" id="cat-'+cat.id+'"><div class="category-head"><div class="category-name-wrap"><div class="category-icon">'+cat.emoji+'<\/div><input class="category-title-input" value="'+esc(cat.title)+'" onchange="updateCat('+cat.id+',\'title\',this.value)"><\/div><div class="category-actions"><span class="category-meta">'+cat.items.length+' pol.<\/span><button class="btn btn-danger" style="padding:5px 10px;font-size:11px" onclick="deleteCat('+cat.id+')">Smazat<\/button><\/div><\/div><table class="items-table"><thead><tr><th style="width:28%">Nazev<\/th><th>Popis<\/th><th style="width:80px">Gramaz<\/th><th style="width:90px">Cena<\/th><th style="width:40px"><\/th><\/tr><\/thead><tbody>'+cat.items.map(item=>'<tr><td><input class="cell-input name" value="'+esc(item.name)+'" placeholder="Nazev" onchange="updateItem('+cat.id+','+item.id+',\'name\',this.value)"><\/td><td><input class="cell-input desc" value="'+esc(item.desc)+'" placeholder="Popis" onchange="updateItem('+cat.id+','+item.id+',\'desc\',this.value)"><\/td><td><input class="cell-input gramaz" value="'+esc(item.gramaz)+'" placeholder="300g" onchange="updateItem('+cat.id+','+item.id+',\'gramaz\',this.value)"><\/td><td><input class="cell-input price" value="'+esc(item.price)+'" placeholder="89 Kc" onchange="updateItem('+cat.id+','+item.id+',\'price\',this.value)"><\/td><td><div class="row-actions"><button class="icon-btn" onclick="deleteItem('+cat.id+','+item.id+')">x<\/button><\/div><\/td><\/tr>').join('')+'<\/tbody><\/table><div class="add-item-row"><button class="add-item-btn" onclick="addItem('+cat.id+')">+ Pridat polozku<\/button><\/div><\/div>').join('');}
+function updateCat(id,f,v){const c=menu.find(x=>x.id===id);if(c){c[f]=v;save();renderSidebar();}}
+function updateItem(cid,iid,f,v){const c=menu.find(x=>x.id===cid);if(c){const i=c.items.find(x=>x.id===iid);if(i){i[f]=v;save();}}}
+function addItem(cid){const c=menu.find(x=>x.id===cid);if(c){const id=(c.items.reduce((m,i)=>Math.max(m,i.id),0))+1;c.items.push({id,name:'',desc:'',gramaz:'',price:''});save();renderCategories();renderSidebar();setTimeout(()=>{const inp=document.querySelector('#cat-'+cid+' tbody tr:last-child .cell-input');if(inp)inp.focus();},50);}}
+function deleteItem(cid,iid){const c=menu.find(x=>x.id===cid);if(c){c.items=c.items.filter(i=>i.id!==iid);save();renderCategories();renderSidebar();}}
+function addCategory(){const id=(menu.reduce((m,c)=>Math.max(m,c.id),0))+1;menu.push({id,title:'Nova kategorie',emoji:'',items:[]});save();renderAll();setTimeout(()=>{const el=document.getElementById('cat-'+id);if(el)el.scrollIntoView({behavior:'smooth'});},100);}
+function deleteCat(id){if(!confirm('Smazat kategorii?'))return;menu=menu.filter(c=>c.id!==id);save();renderAll();}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-document.getElementById('password-input').focus();
+document.getElementById('pwd').focus();
 </script>
 </body>
 </html>
