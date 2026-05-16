@@ -24,7 +24,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .admin-header .logo{font-size:18px;font-weight:500;color:#fff}
 .admin-header .logo span{color:var(--gold);font-style:italic}
 .badge{font-size:11px;background:rgba(201,168,76,.15);color:var(--gold);padding:4px 12px;border-radius:20px}
-.logout-btn{font-size:12px;color:rgba(255,255,255,.5);background:none;border:none;cursor:pointer;padding:6px 12px}
 .admin-body{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 57px)}
 .sidebar{background:var(--white);border-right:1px solid var(--border);padding:24px 0}
 .sidebar-section{padding:0 16px;margin-bottom:8px}
@@ -80,6 +79,11 @@ tr:hover .row-actions{opacity:1}
 .pub-status{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:16px 20px;margin-top:20px;font-size:13px;color:var(--muted);line-height:1.7}
 .pub-status strong{color:var(--dark)}
 .pub-status a{color:var(--gold)}
+.pass-box{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:24px;margin-top:16px}
+.pass-box h3{font-size:14px;font-weight:500;margin-bottom:16px}
+.pass-row{display:flex;gap:10px;align-items:center}
+.pass-row input{flex:1;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;border:1px solid var(--border);border-radius:3px;outline:none;transition:.2s}
+.pass-row input:focus{border-color:var(--gold)}
 @media(max-width:900px){.admin-body{grid-template-columns:1fr}.sidebar{display:none}.stats-row{grid-template-columns:1fr 1fr}.main{padding:16px}}
 </style>
 </head>
@@ -92,16 +96,12 @@ tr:hover .row-actions{opacity:1}
     <input type="password" id="pwd" placeholder="Zadejte heslo" onkeydown="if(event.key==='Enter')tryLogin()">
     <button class="login-btn" onclick="tryLogin()">Prihlasit se</button>
     <p class="login-err" id="login-err">Nespravne heslo.</p>
-    <p style="font-size:12px;color:#bbb;margin-top:20px">Heslo: <strong>gamas2024</strong></p>
   </div>
 </div>
 <div id="admin-screen">
   <div class="admin-header">
-    <div class="logo">Bistro <span>Gamas</span></div>
-    <div style="display:flex;align-items:center;gap:14px">
-      <span class="badge">Jidelni listek</span>
-      <button class="logout-btn" onclick="logout()">Odhlasit</button>
-    </div>
+    <div class="logo">Bistro <span>Gamas</span> &nbsp;·&nbsp; <span style="font-size:13px;color:rgba(255,255,255,.4)">Admin</span></div>
+    <span class="badge">Jidelni listek</span>
   </div>
   <div class="admin-body">
     <div class="sidebar">
@@ -114,6 +114,7 @@ tr:hover .row-actions{opacity:1}
         <div class="sidebar-label">Akce</div>
         <button class="sidebar-item" onclick="publishMenu()"><span class="dot" style="background:var(--green)"></span>Publikovat na web</button>
         <button class="sidebar-item" onclick="window.open('jidelni-listek.html')"><span class="dot"></span>Zobrazit web</button>
+        <button class="sidebar-item" onclick="document.getElementById('pass-section').scrollIntoView({behavior:'smooth'})"><span class="dot"></span>Zmenit heslo</button>
       </div>
     </div>
     <div class="main">
@@ -131,26 +132,35 @@ tr:hover .row-actions{opacity:1}
       <div class="stats-row" id="stats-row"></div>
       <div id="cats-container"></div>
       <div class="pub-status" id="pub-status"></div>
+      <div class="pass-box" id="pass-section">
+        <h3>Zmena hesla</h3>
+        <div class="pass-row">
+          <input type="password" id="new-pass" placeholder="Nove heslo">
+          <input type="password" id="new-pass2" placeholder="Zopakujte heslo">
+          <button class="btn btn-secondary" onclick="changePass()">Ulozit heslo</button>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:10px">Aktualni heslo: <strong id="cur-pass-display"></strong></p>
+      </div>
     </div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
-const PASS='gamas2024',SK='gamas_menu_v1',SK_PUB='gamas_menu_published',SK_AT='gamas_menu_published_at';
+const SK='gamas_menu_v1',SK_PUB='gamas_menu_published',SK_AT='gamas_menu_published_at',SK_PASS='gamas_admin_pass';
 let menu=[];
+function getPass(){return localStorage.getItem(SK_PASS)||'gamas2024';}
 const def=[{id:1,title:'Polevky',emoji:'',items:[{id:1,name:'Polevka dne',desc:'Dle denni nabidky',gramaz:'',price:''}]},{id:2,title:'Tepla jidla',emoji:'',items:[{id:1,name:'Jidlo dne 1',desc:'',gramaz:'',price:''},{id:2,name:'Jidlo dne 2',desc:'',gramaz:'',price:''}]},{id:3,title:'Studena kuchyne',emoji:'',items:[{id:1,name:'Salat dne',desc:'',gramaz:'',price:''}]},{id:4,title:'Cukrarska vyroba',emoji:'',items:[{id:1,name:'Zakusek dne',desc:'',gramaz:'',price:''},{id:2,name:'Dort na objednavku',desc:'Dle domluvy',gramaz:'',price:''}]},{id:5,title:'Napoje',emoji:'',items:[{id:1,name:'Kava',desc:'Espresso cappuccino latte',gramaz:'',price:''},{id:2,name:'Nealkoholicke napoje',desc:'',gramaz:'',price:''}]}];
-function tryLogin(){if(document.getElementById('pwd').value===PASS){document.getElementById('login-screen').style.display='none';document.getElementById('admin-screen').style.display='block';initAdmin();}else{document.getElementById('login-err').style.display='block';}}
-function logout(){document.getElementById('login-screen').style.display='flex';document.getElementById('admin-screen').style.display='none';document.getElementById('pwd').value='';}
-function initAdmin(){const s=localStorage.getItem(SK);if(s){menu=JSON.parse(s);menu.forEach(c=>c.items.forEach(i=>{if(i.gramaz===undefined)i.gramaz='';}));}else{menu=JSON.parse(JSON.stringify(def));}renderAll();updatePubStatus();}
+function tryLogin(){if(document.getElementById('pwd').value===getPass()){document.getElementById('login-screen').style.display='none';document.getElementById('admin-screen').style.display='block';initAdmin();}else{document.getElementById('login-err').style.display='block';}}
+function initAdmin(){const s=localStorage.getItem(SK);if(s){menu=JSON.parse(s);menu.forEach(c=>c.items.forEach(i=>{if(i.gramaz===undefined)i.gramaz='';}));}else{menu=JSON.parse(JSON.stringify(def));}renderAll();updatePubStatus();document.getElementById('cur-pass-display').textContent=getPass();}
 function save(){localStorage.setItem(SK,JSON.stringify(menu));document.getElementById('pub-banner').classList.add('visible');}
 function publishMenu(){localStorage.setItem(SK,JSON.stringify(menu));localStorage.setItem(SK_PUB,JSON.stringify(menu));localStorage.setItem(SK_AT,new Date().toISOString());document.getElementById('pub-banner').classList.remove('visible');updatePubStatus();renderStats();showToast('Jidelni listek byl publikovan!');}
-function updatePubStatus(){const at=localStorage.getItem(SK_AT);const el=document.getElementById('pub-status');if(at){const d=new Date(at);el.innerHTML='<strong>Naposledy publikovano:<\/strong> '+d.toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'})+' v '+d.toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'})+' &nbsp; <a href="jidelni-listek.html" target="_blank">Zobrazit verejnou stranku &rarr;<\/a>';}else{el.innerHTML='Zatim nic publikovano. Pridejte polozky a kliknete <strong>Publikovat na web<\/strong>.';}
-}
+function changePass(){const a=document.getElementById('new-pass').value;const b=document.getElementById('new-pass2').value;if(!a){showToast('Zadejte nove heslo.');return;}if(a!==b){showToast('Hesla se neshoduji!');return;}if(a.length<4){showToast('Heslo musi mit alespon 4 znaky.');return;}localStorage.setItem(SK_PASS,a);document.getElementById('cur-pass-display').textContent=a;document.getElementById('new-pass').value='';document.getElementById('new-pass2').value='';showToast('Heslo bylo zmeneno!');}
+function updatePubStatus(){const at=localStorage.getItem(SK_AT);const el=document.getElementById('pub-status');if(at){const d=new Date(at);el.innerHTML='<strong>Naposledy publikovano:</strong> '+d.toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'})+' v '+d.toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'})+' &nbsp; <a href="jidelni-listek.html" target="_blank">Zobrazit verejnou stranku &rarr;</a>';}else{el.innerHTML='Zatim nic publikovano. Pridejte polozky a kliknete <strong>Publikovat na web</strong>.';}}
 function renderAll(){renderSidebar();renderStats();renderCategories();}
-function renderSidebar(){document.getElementById('sidebar-cats').innerHTML=menu.map(c=>'<button class="sidebar-item" onclick="document.getElementById(\'cat-'+c.id+'\').scrollIntoView({behavior:\'smooth\'})"><span class="dot"><\/span>'+c.title+'<span style="margin-left:auto;font-size:12px;color:var(--muted)">'+c.items.length+'<\/span><\/button>').join('');}
-function renderStats(){const t=menu.reduce((s,c)=>s+c.items.length,0);document.getElementById('stats-row').innerHTML='<div class="stat-card"><div class="stat-label">Kategorii<\/div><div class="stat-value">'+menu.length+'<\/div><\/div><div class="stat-card"><div class="stat-label">Polozek<\/div><div class="stat-value">'+t+'<\/div><\/div><div class="stat-card"><div class="stat-label">Dnes<\/div><div class="stat-value" style="font-size:16px">'+new Date().toLocaleDateString('cs-CZ')+'<\/div><\/div><div class="stat-card"><div class="stat-label">Stav webu<\/div><div class="stat-value" style="font-size:16px;color:var(--green)">Online<\/div><\/div>';}
+function renderSidebar(){document.getElementById('sidebar-cats').innerHTML=menu.map(c=>'<button class="sidebar-item" onclick="document.getElementById('cat-'+c.id+'').scrollIntoView({behavior:'smooth'})"><span class="dot"></span>'+c.title+'<span style="margin-left:auto;font-size:12px;color:var(--muted)">'+c.items.length+'</span></button>').join('');}
+function renderStats(){const t=menu.reduce((s,c)=>s+c.items.length,0);document.getElementById('stats-row').innerHTML='<div class="stat-card"><div class="stat-label">Kategorii</div><div class="stat-value">'+menu.length+'</div></div><div class="stat-card"><div class="stat-label">Polozek</div><div class="stat-value">'+t+'</div></div><div class="stat-card"><div class="stat-label">Dnes</div><div class="stat-value" style="font-size:16px">'+new Date().toLocaleDateString('cs-CZ')+'</div></div><div class="stat-card"><div class="stat-label">Stav webu</div><div class="stat-value" style="font-size:16px;color:var(--green)">Online</div></div>';}
 function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
-function renderCategories(){document.getElementById('cats-container').innerHTML=menu.map(cat=>'<div class="category-block" id="cat-'+cat.id+'"><div class="category-head"><div class="category-name-wrap"><div class="category-icon">'+cat.emoji+'<\/div><input class="category-title-input" value="'+esc(cat.title)+'" onchange="updateCat('+cat.id+',\'title\',this.value)"><\/div><div class="category-actions"><span class="category-meta">'+cat.items.length+' pol.<\/span><button class="btn btn-danger" style="padding:5px 10px;font-size:11px" onclick="deleteCat('+cat.id+')">Smazat<\/button><\/div><\/div><table class="items-table"><thead><tr><th style="width:28%">Nazev<\/th><th>Popis<\/th><th style="width:80px">Gramaz<\/th><th style="width:90px">Cena<\/th><th style="width:40px"><\/th><\/tr><\/thead><tbody>'+cat.items.map(item=>'<tr><td><input class="cell-input name" value="'+esc(item.name)+'" placeholder="Nazev" onchange="updateItem('+cat.id+','+item.id+',\'name\',this.value)"><\/td><td><input class="cell-input desc" value="'+esc(item.desc)+'" placeholder="Popis" onchange="updateItem('+cat.id+','+item.id+',\'desc\',this.value)"><\/td><td><input class="cell-input gramaz" value="'+esc(item.gramaz)+'" placeholder="300g" onchange="updateItem('+cat.id+','+item.id+',\'gramaz\',this.value)"><\/td><td><input class="cell-input price" value="'+esc(item.price)+'" placeholder="89 Kc" onchange="updateItem('+cat.id+','+item.id+',\'price\',this.value)"><\/td><td><div class="row-actions"><button class="icon-btn" onclick="deleteItem('+cat.id+','+item.id+')">x<\/button><\/div><\/td><\/tr>').join('')+'<\/tbody><\/table><div class="add-item-row"><button class="add-item-btn" onclick="addItem('+cat.id+')">+ Pridat polozku<\/button><\/div><\/div>').join('');}
+function renderCategories(){document.getElementById('cats-container').innerHTML=menu.map(cat=>'<div class="category-block" id="cat-'+cat.id+'"><div class="category-head"><div class="category-name-wrap"><div class="category-icon">'+cat.emoji+'</div><input class="category-title-input" value="'+esc(cat.title)+'" onchange="updateCat('+cat.id+','title',this.value)"></div><div class="category-actions"><span class="category-meta">'+cat.items.length+' pol.</span><button class="btn btn-danger" style="padding:5px 10px;font-size:11px" onclick="deleteCat('+cat.id+')">Smazat</button></div></div><table class="items-table"><thead><tr><th style="width:28%">Nazev</th><th>Popis</th><th style="width:80px">Gramaz</th><th style="width:90px">Cena</th><th style="width:40px"></th></tr></thead><tbody>'+cat.items.map(item=>'<tr><td><input class="cell-input name" value="'+esc(item.name)+'" placeholder="Nazev" onchange="updateItem('+cat.id+','+item.id+','name',this.value)"></td><td><input class="cell-input desc" value="'+esc(item.desc)+'" placeholder="Popis" onchange="updateItem('+cat.id+','+item.id+','desc',this.value)"></td><td><input class="cell-input gramaz" value="'+esc(item.gramaz)+'" placeholder="300g" onchange="updateItem('+cat.id+','+item.id+','gramaz',this.value)"></td><td><input class="cell-input price" value="'+esc(item.price)+'" placeholder="89 Kc" onchange="updateItem('+cat.id+','+item.id+','price',this.value)"></td><td><div class="row-actions"><button class="icon-btn" onclick="deleteItem('+cat.id+','+item.id+')">x</button></div></td></tr>').join('')+'</tbody></table><div class="add-item-row"><button class="add-item-btn" onclick="addItem('+cat.id+')">+ Pridat polozku</button></div></div>').join('');}
 function updateCat(id,f,v){const c=menu.find(x=>x.id===id);if(c){c[f]=v;save();renderSidebar();}}
 function updateItem(cid,iid,f,v){const c=menu.find(x=>x.id===cid);if(c){const i=c.items.find(x=>x.id===iid);if(i){i[f]=v;save();}}}
 function addItem(cid){const c=menu.find(x=>x.id===cid);if(c){const id=(c.items.reduce((m,i)=>Math.max(m,i.id),0))+1;c.items.push({id,name:'',desc:'',gramaz:'',price:''});save();renderCategories();renderSidebar();setTimeout(()=>{const inp=document.querySelector('#cat-'+cid+' tbody tr:last-child .cell-input');if(inp)inp.focus();},50);}}
