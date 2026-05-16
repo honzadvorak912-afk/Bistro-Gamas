@@ -88,6 +88,7 @@ footer a{color:var(--gold);text-decoration:none}
 @media(max-width:900px){
   nav{padding:14px 20px}nav.scrolled{padding:10px 20px}
   .nav-links{display:none}
+  .hamburger{display:flex}
   .hero{grid-template-columns:1fr;min-height:auto}
   .hero-left{padding:100px 24px 56px}
   .hero-right{height:50vw}
@@ -98,12 +99,23 @@ footer a{color:var(--gold);text-decoration:none}
   .form-row{grid-template-columns:1fr}
   footer{padding:48px 20px 20px}
 }
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--warm);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:57px;left:0;right:0;background:var(--warm);padding:24px;z-index:99;flex-direction:column}
+.mobile-menu.open{display:flex}
+.mobile-menu a{display:block;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.75);text-decoration:none;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.mobile-menu a:hover{color:var(--gold)}
 </style>
 </head>
 <body>
 
 <nav id="nav">
   <a href="index.html" class="logo">Bistro <em>Gamas</em></a>
+  <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
   <ul class="nav-links">
     <li><a href="index.html">Domů</a></li>
     <li><a href="jidelni-listek.html">Jídelní lístek</a></li>
@@ -112,6 +124,8 @@ footer a{color:var(--gold);text-decoration:none}
     <li><a href="kontakt.html" class="active">Kontakt</a></li>
   </ul>
 </nav>
+<div class="mobile-menu" id="mob"><a href="index.html">Domu</a><a href="jidelni-listek.html">Jidelni listek</a><a href="catering.html">Catering</a><a href="fotogalerie.html">Fotogalerie</a><a href="kontakt.html">Kontakt</a></div>
+
 
 <section class="hero">
   <div class="hero-left">
@@ -214,6 +228,8 @@ function handleForm(e){
   const btn=e.target.querySelector('.btn-submit');
   btn.textContent='Odesláno ✓';btn.style.background='#3a6b3a';btn.disabled=true;
 }
+
+var _h=document.getElementById("hbg"),_m=document.getElementById("mob");if(_h&&_m){_h.addEventListener("click",function(){_h.classList.toggle("open");_m.classList.toggle("open");});}
 </script>
 </body>
 </html>
