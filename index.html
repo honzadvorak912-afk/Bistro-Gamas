@@ -91,9 +91,11 @@ footer a{color:var(--gold);text-decoration:none}
 @keyframes scrollAnim{0%,100%{opacity:.3}50%{opacity:1}}
 
 @media(max-width:900px){
+  .hamburger{display:flex!important}
+  .nav-links{display:none!important}
+  
   nav{padding:16px 24px}nav.scrolled{padding:12px 24px}
-  .nav-links{display:none}
-  .hamburger{display:flex}
+  
   .about{grid-template-columns:1fr}
   .about-img{height:50vw}
   .about-text{padding:48px 24px}
