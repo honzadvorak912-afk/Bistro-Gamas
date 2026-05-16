@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bistro Gamas – Hlinsko</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#c9a84c;--gold2:#e8d49e;
+  --dark:#0e0c09;--dark2:#1a1610;--dark3:#261f16;
+  --cream:#f5f0e8;--text:#3a3228;--muted:#7a6e5e;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--dark);color:var(--cream);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px 56px;transition:all .4s}
+nav.scrolled{background:rgba(14,12,9,.95);padding:14px 56px;backdrop-filter:blur(10px)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#fff;text-decoration:none;letter-spacing:1px}
+.logo span{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.65);text-decoration:none;font-weight:400;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+
+/* HERO */
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:-10%;background:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=80') center/cover no-repeat;filter:brightness(.45)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,12,9,.7) 0%,rgba(14,12,9,.2) 60%,rgba(201,168,76,.1) 100%)}
+.hero-content{position:relative;text-align:center;padding:0 24px}
+.hero-tag{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s ease .3s forwards}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(56px,9vw,120px);font-weight:300;line-height:.9;color:#fff;opacity:0;animation:fadeUp 1s ease .5s forwards}
+.hero-title em{font-style:italic;color:var(--gold2)}
+.hero-sub{font-size:14px;font-weight:300;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:28px;opacity:0;animation:fadeUp .8s ease .8s forwards}
+.hero-cta{display:inline-flex;gap:16px;margin-top:48px;opacity:0;animation:fadeUp .8s ease 1s forwards}
+.btn-primary{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;background:var(--gold);color:var(--dark);padding:16px 36px;text-decoration:none;transition:all .2s}
+.btn-primary:hover{background:var(--gold2)}
+.btn-ghost{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:400;border:1px solid rgba(255,255,255,.3);color:#fff;padding:16px 36px;text-decoration:none;transition:all .2s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-line{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .8s ease 1.3s forwards}
+.scroll-line span{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.scroll-line::before{content:'';width:1px;height:50px;background:linear-gradient(var(--gold),transparent);animation:scrollAnim 2s ease-in-out infinite}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1fr 1fr;min-height:80vh;background:var(--dark2)}
+.about-img{position:relative;overflow:hidden}
+.about-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.8);transform:scale(1.05);transition:transform 8s ease}
+.about-img:hover img{transform:scale(1)}
+.about-text{display:flex;flex-direction:column;justify-content:center;padding:80px 72px}
+.section-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,56px);font-weight:300;line-height:1.1;color:#fff;margin-bottom:32px}
+.section-title em{font-style:italic;color:var(--gold2)}
+.gold-bar{width:40px;height:1px;background:var(--gold);margin-bottom:32px}
+.about-text p{font-size:15px;font-weight:300;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:16px}
+
+/* HIGHLIGHTS */
+.highlights{padding:120px 56px;background:var(--dark3)}
+.highlights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px}
+.highlight-card{position:relative;overflow:hidden;aspect-ratio:3/4}
+.highlight-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;filter:brightness(.6)}
+.highlight-card:hover img{transform:scale(1.08)}
+.highlight-info{position:absolute;bottom:0;left:0;right:0;padding:36px 32px;background:linear-gradient(transparent,rgba(14,12,9,.9))}
+.highlight-info h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#fff;margin-bottom:8px}
+.highlight-info p{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.highlight-card a{position:absolute;inset:0;z-index:2}
+
+/* HOURS STRIP */
+.hours-strip{background:var(--gold);padding:48px 56px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.hours-strip h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--dark);flex-shrink:0}
+.hours-list{display:flex;gap:32px;flex-wrap:wrap}
+.hour-item{font-size:13px;color:var(--dark2);font-weight:400}
+.hour-item strong{font-weight:500;display:block}
+.hours-strip a{font-size:11px;letter-spacing:3px;text-transform:uppercase;background:var(--dark);color:var(--gold);padding:14px 28px;text-decoration:none;flex-shrink:0;transition:background .2s}
+.hours-strip a:hover{background:var(--dark3)}
+
+/* FOOTER */
+footer{background:var(--dark);padding:64px 56px 32px;text-align:center}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#fff;margin-bottom:24px;display:block}
+.footer-logo em{font-style:italic;color:var(--gold)}
+footer p{font-size:13px;color:rgba(255,255,255,.4);line-height:2;margin-bottom:6px}
+footer a{color:var(--gold);text-decoration:none}
+.footer-divider{width:60px;height:1px;background:var(--gold);margin:32px auto}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.delay1{transition-delay:.1s}.delay2{transition-delay:.2s}.delay3{transition-delay:.3s}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollAnim{0%,100%{opacity:.3}50%{opacity:1}}
+
+@media(max-width:900px){
+  nav{padding:16px 24px}nav.scrolled{padding:12px 24px}
+  .nav-links{display:none}
+  .about{grid-template-columns:1fr}
+  .about-img{height:50vw}
+  .about-text{padding:48px 24px}
+  .highlights-grid{grid-template-columns:1fr}
+  .hours-strip{flex-direction:column;text-align:center}
+  .highlights{padding:80px 24px}
+  footer{padding:48px 24px 24px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="logo">Bistro <em>Gamas</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Domů</a></li>
+    <li><a href="jidelni-listek.html">Jídelní lístek</a></li>
+    <li><a href="catering.html">Catering</a></li>
+    <li><a href="fotogalerie.html">Fotogalerie</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Bistro &amp; Restaurace · Hlinsko</div>
+    <h1 class="hero-title">Chuť,<br>která <em>zůstane</em></h1>
+    <p class="hero-sub">Nádražní 1105 · 539 01 Hlinsko · Od 5:00 hod.</p>
+    <div class="hero-cta">
+      <a href="jidelni-listek.html" class="btn-primary">Jídelní lístek</a>
+      <a href="kontakt.html" class="btn-ghost">Kontakt</a>
+    </div>
+  </div>
+  <div class="scroll-line"><span>Scroll</span></div>
+</section>
+
+<section class="about">
+  <div class="about-img">
+    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80" alt="Bistro Gamas interiér">
+  </div>
+  <div class="about-text">
+    <p class="section-label reveal">O nás</p>
+    <h2 class="section-title reveal delay1">Domácí kuchyně<br>s <em>vášní</em></h2>
+    <div class="gold-bar reveal delay2"></div>
+    <p class="reveal delay2">Bistro Gamas je místem, kde se setkávají chutě domácí kuchyně s profesionálním přístupem. Vaříme pro vás každý den od brzkého rána.</p>
+    <p class="reveal delay3">Nabízíme teplá i studená jídla, cukrářskou výrobu, catering a rauty. Jsme tu pro vás, když chcete dobře jíst — ať už na snídani, oběd nebo firemní akci.</p>
+  </div>
+</section>
+
+<section class="highlights">
+  <div style="text-align:center">
+    <p class="section-label reveal">Co nabízíme</p>
+    <h2 class="section-title reveal delay1" style="color:#fff">Naše <em>speciality</em></h2>
+  </div>
+  <div class="highlights-grid">
+    <div class="highlight-card reveal delay1">
+      <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80" alt="Teplá jídla">
+      <div class="highlight-info"><h3>Teplá jídla</h3><p>Denní menu</p></div>
+      <a href="jidelni-listek.html"></a>
+    </div>
+    <div class="highlight-card reveal delay2">
+      <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80" alt="Cukrářská výroba">
+      <div class="highlight-info"><h3>Cukrářská výroba</h3><p>Dorty &amp; zákusky</p></div>
+      <a href="jidelni-listek.html"></a>
+    </div>
+    <div class="highlight-card reveal delay3">
+      <img src="https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=600&q=80" alt="Catering">
+      <div class="highlight-info"><h3>Catering &amp; Rauty</h3><p>Firemní akce</p></div>
+      <a href="catering.html"></a>
+    </div>
+  </div>
+</section>
+
+<div class="hours-strip reveal">
+  <h2>Otevírací doba</h2>
+  <div class="hours-list">
+    <div class="hour-item"><strong>Po – Pá</strong>5:00 – 17:00</div>
+    <div class="hour-item"><strong>Sobota</strong>Jen na akce</div>
+    <div class="hour-item"><strong>Neděle</strong>Zavřeno</div>
+  </div>
+  <a href="kontakt.html">Kontaktujte nás</a>
+</div>
+
+<footer>
+  <span class="footer-logo">Bistro <em>Gamas</em></span>
+  <div class="footer-divider"></div>
+  <p>Nádražní 1105 · 539 01 Hlinsko</p>
+  <p><a href="tel:+420728478333">728 478 333</a> · <a href="tel:+420469311786">+420 469 311 786</a></p>
+  <p><a href="mailto:poslusna.gastro@seznam.cz">poslusna.gastro@seznam.cz</a></p>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+const reveals=document.querySelectorAll('.reveal');
+new IntersectionObserver((e)=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('visible')),{threshold:.12}).observe&&reveals.forEach(el=>new IntersectionObserver((e)=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('visible')),{threshold:.12}).observe(el));
+</script>
+</body>
+</html>
